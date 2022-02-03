@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ChakraProvider,
   Flex,
@@ -12,11 +13,34 @@ import {
   Radio,
   Button,
 } from "@chakra-ui/react";
+import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
+import images from "react-payment-inputs/images";
 
 function App() {
+  const [formValues, setFormValues] = useState({
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
+    postalCode: "",
+  });
+  const {
+    meta,
+    wrapperProps,
+    getCardImageProps,
+    getCardNumberProps,
+    getExpiryDateProps,
+    getCVCProps,
+    getZIPProps,
+  } = usePaymentInputs();
+
+  const handleChange = (e) => {
+    console.log(meta, "meeeta");
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
   return (
     <ChakraProvider>
-      <Box px={4} className="App">
+      <Box px={4} className="App" pb={6}>
         <nav>
           <Flex
             justify="flex-end"
@@ -39,16 +63,22 @@ function App() {
           </Flex>
         </nav>
 
-        <Box my={10} px={6}>
+        <Box my={4} px={6}>
           <Divider />
         </Box>
 
-        <Box px={16}>
-          <Flex justify="space-between" align="center">
-            <Flex direction="column">
+        <Box px={[2, 4, 8, 16]}>
+          <Flex
+            justify="space-between"
+            direction={["column", "row", "row", "row"]}
+            align="center"
+            gridGap={[4, null, null, null]}
+          >
+            <Flex direction="column" align={["center", null, null, null]}>
               <Text fontWeight={"bold"}>Payment Information</Text>
               <Text fontSize="sm">Choose your menthod of payment</Text>
             </Flex>
+
             <Flex gridGap={4}>
               <Box w="3rem">
                 <Image src="Visa.jpg" />
@@ -62,42 +92,109 @@ function App() {
             </Flex>
           </Flex>
 
-          <Flex wrap={"wrap"} my={6} justify="space-between">
-            <Box flexBasis={"30%"} w={"30%"}>
-              <Image src="credit_card.png" />
-            </Box>
+          <Flex
+            wrap={"wrap"}
+            my={6}
+            direction={["column", "column", "row", "row"]}
+            justify="space-between"
+            align="center"
+          >
             <Flex
-              flexBasis={"50%"}
-              sx={{ "& > div": { flexBasis: "48%", mb: 4 } }}
-              justify="space-between"
-              flexWrap={"wrap"}
+              justify="center"
+              flexBasis={["100%", "100%", "40%", "30%"]}
+              w={["100%", "100%", "40%", "30%"]}
+              mb={[4, 4, 0, 0]}
             >
-              <Flex direction="column">
-                <FormLabel>Credit card number</FormLabel>
-                <Input />
-              </Flex>
-              <Flex direction="column">
-                <FormLabel>Expiration date</FormLabel>
-                <Input />
-              </Flex>
-              <Flex direction="column">
-                <FormLabel>Security code</FormLabel>
-                <Input />
-              </Flex>
-              <Flex direction="column">
-                <FormLabel>Postal Code</FormLabel>
-                <Input />
-              </Flex>
+              <Image
+                src="credit_card.png"
+                boxSize={"100%"}
+                maxW={["70%", "50%", "100%", "100%"]}
+              />
+            </Flex>
 
-              <Flex direction="column" flexGrow={1} mt={4}>
-                <RadioGroup>
-                  <Radio value="1">
-                    Use this card for the next time purchase
-                  </Radio>
-                </RadioGroup>
-                <Button mt={3}>Add Card</Button>
+            <Flex
+              direction="column"
+              flexBasis={"50%"}
+              sx={{
+                "& > div > div": {
+                  flexBasis: ["98%", "98%", "98%", "48%"],
+                  mb: 4,
+                },
+              }}
+            >
+              {meta.isTouched && meta.error && (
+                <span style={{ color: "red" }}>Error: {meta.error}</span>
+              )}
+              <Flex justify="space-between" flexWrap={"wrap"}>
+                <Flex direction="column">
+                  <FormLabel>Credit card number</FormLabel>
+                  <PaymentInputsWrapper>
+                    <Input
+                      {...getCardNumberProps({ onChange: handleChange })}
+                      name="cardNumber"
+                      value={formValues.cardNumber}
+                    />
+                  </PaymentInputsWrapper>
+                </Flex>
+                <Flex direction="column">
+                  <FormLabel>Expiration date</FormLabel>
+                  <Input
+                    {...getExpiryDateProps({ onChange: handleChange })}
+                    name="expirationDate"
+                    value={formValues.expirationDate}
+                  />
+                </Flex>
+                <Flex direction="column">
+                  <FormLabel>Security code</FormLabel>
+                  <Input
+                    {...getCVCProps({ onChange: handleChange })}
+                    name="cvc"
+                    value={formValues.cvc}
+                  />
+                </Flex>
+                <Flex direction="column">
+                  <FormLabel>Postal Code</FormLabel>
+                  <Input
+                    {...getZIPProps({ onChange: handleChange })}
+                    name="postalCode"
+                    value={formValues.postalCode}
+                  />
+                </Flex>
+              </Flex>
+              <Flex direction="column" flexGrow={1}>
+                <Radio value="1" mb={2}>
+                  Use this card for the next time purchase
+                </Radio>
+                <Button color="white" bg="blue">
+                  Add Card
+                </Button>
               </Flex>
             </Flex>
+          </Flex>
+
+          <Divider my={4} />
+
+          <Flex direction="column" fontWeight="bold">
+            <Flex justify="space-between">
+              <Text>Subtotal</Text>
+              <Text>N2497</Text>
+            </Flex>
+            <Flex justify="space-between">
+              <Text>Estimated Tax </Text>
+              <Text>N110.64</Text>
+            </Flex>
+            <Flex justify="space-between">
+              <Text>Promotional Code Z4KXLM9A</Text>
+              <Text>N-60</Text>
+            </Flex>
+          </Flex>
+
+          <Divider my={4} />
+          <Flex justify="space-between">
+            <Button color="white" bg="blue">
+              Complete Payment
+            </Button>
+            <Text>TOTAL: N2556.64</Text>
           </Flex>
         </Box>
       </Box>
