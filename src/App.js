@@ -35,15 +35,15 @@ function App() {
   };
   return (
     <ChakraProvider>
-      <Box px={(1, 2, 3, 4)} className="App" pb={6}>
+      <Box px={[1, 2, 3, 4]} className="App" pb={6}>
         <nav>
           <Flex
             justify={["space-between", "space-between", "flex-end", "flex-end"]}
             gridGap={[2, 2, 4, 4]}
             fontSize={[".8rem", "1.2rem", "1.2rem", "1.2rem"]}
             align="center"
-            py={(1, 2, 3, 4)}
-            px={(1, 2, 3, 4)}
+            py={[1, 2, 3, 4]}
+            px={[2, 3, 3, 4]}
             sx={{
               "& > .chakra-text": { fontWeight: "bold", whiteSpace: "pre" },
             }}
@@ -72,7 +72,10 @@ function App() {
             align="center"
             gridGap={[4, null, null, null]}
           >
-            <Flex direction="column" align={["center", null, null, null]}>
+            <Flex
+              direction="column"
+              align={["center", "flex-start", "flex-start", "flex-start"]}
+            >
               <Text fontWeight={"bold"}>Payment Information</Text>
               <Text fontSize="sm">Choose your menthod of payment</Text>
             </Flex>
@@ -160,7 +163,7 @@ function App() {
                 </Flex>
               </Flex>
               <Flex direction="column" flexGrow={1}>
-                <Radio value="1" mb={2}>
+                <Radio value="1" mb={4}>
                   Use this card for the next time purchase
                 </Radio>
                 <Button color="white" bg="blue">
@@ -192,7 +195,7 @@ function App() {
             <Button color="white" bg="blue">
               Complete Payment
             </Button>
-            <Text>TOTAL: N2556.64</Text>
+            <Text fontWeight="900">TOTAL: N2556.64</Text>
           </Flex>
         </Box>
       </Box>
