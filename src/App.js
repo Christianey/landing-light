@@ -9,12 +9,10 @@ import {
   Box,
   FormLabel,
   Input,
-  RadioGroup,
   Radio,
   Button,
 } from "@chakra-ui/react";
 import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
-import images from "react-payment-inputs/images";
 
 function App() {
   const [formValues, setFormValues] = useState({
@@ -25,8 +23,6 @@ function App() {
   });
   const {
     meta,
-    wrapperProps,
-    getCardImageProps,
     getCardNumberProps,
     getExpiryDateProps,
     getCVCProps,
@@ -34,21 +30,23 @@ function App() {
   } = usePaymentInputs();
 
   const handleChange = (e) => {
-    console.log(meta, "meeeta");
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
   return (
     <ChakraProvider>
-      <Box px={4} className="App" pb={6}>
+      <Box px={(1, 2, 3, 4)} className="App" pb={6}>
         <nav>
           <Flex
-            justify="flex-end"
-            gridGap={4}
+            justify={["space-between", "space-between", "flex-end", "flex-end"]}
+            gridGap={[2, 2, 4, 4]}
+            fontSize={[".8rem", "1.2rem", "1.2rem", "1.2rem"]}
             align="center"
-            py="4"
-            px="8"
-            sx={{ "& > .chakra-text": { fontWeight: "bold" } }}
+            py={(1, 2, 3, 4)}
+            px={(1, 2, 3, 4)}
+            sx={{
+              "& > .chakra-text": { fontWeight: "bold", whiteSpace: "pre" },
+            }}
           >
             <Text>TRIPS</Text>
             <Text>RECENTLY VIEWED</Text>
@@ -63,7 +61,7 @@ function App() {
           </Flex>
         </nav>
 
-        <Box my={4} px={6}>
+        <Box my={[1, 2, 3, 4]} px={6}>
           <Divider />
         </Box>
 
