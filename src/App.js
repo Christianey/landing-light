@@ -191,7 +191,7 @@ function App() {
           </Flex>
 
           <Divider my={4} />
-          <Flex justify="space-between">
+          <Flex justify="space-between" align="center">
             <Button color="white" bg="blue">
               Complete Payment
             </Button>
