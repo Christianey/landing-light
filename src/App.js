@@ -195,7 +195,9 @@ function App() {
             <Button color="white" bg="blue">
               Complete Payment
             </Button>
-            <Text fontWeight="900">TOTAL: N2556.64</Text>
+            <Text textAlign={"right"} fontWeight="900">
+              TOTAL: N2556.64
+            </Text>
           </Flex>
         </Box>
       </Box>
